@@ -91,10 +91,11 @@ examsRouter.post("/:id/answer", async (req, res, next) => {
     if (examIndex !== -1) {
       // exam found
       examFound.questions.map((question, index) => {
-        if (index === req.body.question && req.body.answer) {
-          if (!examFound.providedAnswer) {
-            examFound.questions[index].providedAnswer = req.body.answer;
+        if (index === req.body.question && req.body.answer !== "") {
+          if (examFound.questions[index].providedAnswer) {
+            return;
           }
+          examFound.questions[index].providedAnswer = req.body.answer;
         }
       });
 
@@ -111,25 +112,6 @@ examsRouter.post("/:id/answer", async (req, res, next) => {
       err.httpStatusCode = 404;
       next(err);
     }
-
-    // if (examFound) {
-    //   examFound.questions.map((question, index) => {
-    //     if (index === req.body.question && req.body.answer) {
-    //       if (!examFound.providedAnswer) {
-    //         examFound.questions[index].providedAnswer = req.body.answer;
-    //       }
-    //     }
-    //   });
-
-    //   const currentExams = await getExams();
-    //   await writeExams([...currentExams, examFound]);
-
-    //   res.send(examFound);
-    // } else {
-    //   const err = new Error();
-    //   err.httpStatusCode = 404;
-    //   next(err);
-    // }
   } catch (error) {
     console.log(error);
     const err = new Error("An error occurred while reading from the file");
