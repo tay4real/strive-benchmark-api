@@ -2,6 +2,16 @@ const express = require("express");
 const cors = require("cors");
 const listEndpoints = require("express-list-endpoints");
 
+const examsRoutes = require("./services/exams");
+
+const {
+  notFoundHandler,
+  unauthorizedHandler,
+  forbiddenHandler,
+  badRequestHandler,
+  catchAllHandler,
+} = require("./errorHandlers");
+
 const server = express();
 
 const port = process.env.PORT || 3001;
@@ -26,6 +36,18 @@ const corsOptions = {
 };
 
 server.use(cors(corsOptions));
+
+server.get("/", (req, res, next) => res.send("Server is running..."));
+server.use("/exams", examsRoutes);
+
+// ERROR HANDLERS
+server.use(notFoundHandler);
+server.use(unauthorizedHandler);
+server.use(forbiddenHandler);
+server.use(badRequestHandler);
+server.use(catchAllHandler);
+
+console.log(listEndpoints(server));
 
 console.log(listEndpoints(server));
 
