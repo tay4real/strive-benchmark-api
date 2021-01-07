@@ -2,6 +2,7 @@ const { readJSON, writeJSON } = require("fs-extra");
 const path = require("path");
 
 const examsDBPath = path.join(__dirname, "../services/exams/exams.json");
+const answersDBPath = path.join(__dirname, "../services/exams/answers.json");
 const questionsDBPath = path.join(
   __dirname,
   "../data/questions/questions.json"
@@ -56,5 +57,7 @@ module.exports = {
   getExams: async () => readDB(examsDBPath),
   writeExams: async (examsData) => writeDB(examsDBPath, examsData),
   getTotalQuestions: async (questions) => getArrayLength(questions),
-  shuffleQuestions: async (questions) => shuffleArray(questions)
+  shuffleQuestions: async (questions) => shuffleArray(questions),
+  getAnwers: async () => readDB(answersDBPath),
+  writeAnwers: async (answersData) => writeDB(answersDBPath, answersData),
 };
