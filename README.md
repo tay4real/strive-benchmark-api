@@ -1,2 +1,2 @@
 # strive-benchmark-api
- Assessment and benchmarking API
+ Assessment and benchmarking Backend API
