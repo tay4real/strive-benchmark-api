@@ -12,8 +12,6 @@ const {
   writeExams,
   getTotalQuestions,
   shuffleQuestions,
-  getAnwers,
-  writeAnwers,
 } = require("../../library/fsUtils");
 
 const examsRouter = express.Router();
@@ -29,19 +27,6 @@ examsRouter.post("/start", async (req, res, next) => {
     // Pick the first five questions
     const examQuestions = shuffleQues.slice(0, 5);
 
-    // const userAnswers = [];
-    // // initially users answers with empty strings
-    // for (let i = 0; i < examQuestions.length; i++) {
-    //   userAnswers.push("");
-    // }
-
-    // if (req.body.answers) {
-    //   const submittedAnswers = req.body.answers;
-    //   submittedAnswers.map((answer, index) => {
-    //     userAnswers[index] = answer;
-    //   });
-    // }
-
     const newExam = {};
 
     let date = new Date();
@@ -51,14 +36,6 @@ examsRouter.post("/start", async (req, res, next) => {
     newExam.examDate = dateWrapper;
     newExam.isCompleted = false;
     newExam.name = "Admission Test";
-
-    // // Add answers provided by user to corresponding question on submitting
-    // for (let i = 0; i < userAnswers.length; i++) {
-    //   if (userAnswers[i] !== "") {
-    //     examQuestions[i].providedAnswer = userAnswers[i];
-    //     newExam.isCompleted = true;
-    //   }
-    // }
 
     newExam.questions = examQuestions;
     const currentExams = await getExams();
@@ -81,7 +58,6 @@ examsRouter.post("/start", async (req, res, next) => {
 examsRouter.post("/:id/answer", async (req, res, next) => {
   try {
     // get exams from DB
-
     const exams = await getExams();
 
     const examFound = exams.find((exam) => exam._id === req.params.id);
@@ -106,7 +82,7 @@ examsRouter.post("/:id/answer", async (req, res, next) => {
       ];
 
       await writeExams(examUpdate);
-      res.send(examUpdate);
+      res.send(examFound);
     } else {
       const err = new Error();
       err.httpStatusCode = 404;

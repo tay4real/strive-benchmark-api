@@ -58,6 +58,4 @@ module.exports = {
   writeExams: async (examsData) => writeDB(examsDBPath, examsData),
   getTotalQuestions: async (questions) => getArrayLength(questions),
   shuffleQuestions: async (questions) => shuffleArray(questions),
-  getAnwers: async () => readDB(answersDBPath),
-  writeAnwers: async (answersData) => writeDB(answersDBPath, answersData),
 };
