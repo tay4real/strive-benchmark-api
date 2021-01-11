@@ -21,8 +21,8 @@ examsRouter.post("/start", async (req, res, next) => {
     // get questions from DB
     const questions = await getQuestions();
 
-    // Shuffle the Questioons
-    const shuffleQues = await shuffleQuestions(questions);
+    // Shuffle the Questions
+    const shuffleQues = await shuffleQuestions(questions[0].questions);
 
     // Pick the first five questions
     const examQuestions = shuffleQues.slice(0, 5);
@@ -35,7 +35,9 @@ examsRouter.post("/start", async (req, res, next) => {
     newExam.candidateName = req.body.candidateName;
     newExam.examDate = dateWrapper;
     newExam.isCompleted = false;
-    newExam.name = "Admission Test";
+    newExam.name = questions[0].name;
+    newExam.instructions = questions[0].instructions;
+    newExam.score = "";
 
     newExam.questions = examQuestions;
     const currentExams = await getExams();
